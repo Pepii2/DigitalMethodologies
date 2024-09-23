@@ -93,15 +93,19 @@ if uploaded_file:
     plt.clf()
 
     # Correlation Analysis
-    st.subheader("Correlation Analysis")
+st.subheader("Correlation Analysis")
 
-    if 'What percentage of the food you buy do you end up throwing away?' in data_translated.columns:
-        correlation_matrix = data_translated.corr(numeric_only=True)
+# Ensure that there are numeric columns available for correlation
+if 'What percentage of the food you buy do you end up throwing away?' in data_translated.columns:
+    # Compute correlation matrix
+    correlation_matrix = data_translated.corr(numeric_only=True)
+    
+    if correlation_matrix.empty:
+        st.write("No numeric columns available for correlation analysis.")
+    else:
         st.write("### Correlation Heatmap")
         plt.figure(figsize=(10, 6))
         sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
         st.pyplot(plt.gcf())
-    else:
-        st.write("No numeric columns for correlation analysis.")
 else:
-    st.write("Please upload a CSV file to begin.")
+    st.write("No numeric columns for correlation analysis.")
